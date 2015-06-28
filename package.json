@@ -1,0 +1,37 @@
+{
+  "name": "react-image-diff",
+  "version": "0.0.1",
+  "description": "Highlight differences between images",
+  "main": "dist/react-image-diff.js",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cezary/react-image-diff.git"
+  },
+  "keywords": [
+    "diff",
+    "image",
+    "react"
+  ],
+  "author": "Cezary Wojtkowski <cezary@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cezary/react-image-diff/issues"
+  },
+  "homepage": "https://github.com/cezary/react-image-diff",
+  "devDependencies": {
+    "babel-loader": "^5.2.2",
+    "file-loader": "^0.8.4",
+    "image-webpack-loader": "^1.6.1",
+    "imagemin": "^3.2.0",
+    "node-libs-browser": "^0.5.2",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.10.0"
+  },
+  "dependencies": {
+    "object-assign": "^3.0.0"
+  }
+}

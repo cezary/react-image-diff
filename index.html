@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>React Diff Image</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, sans-serif;
+      font-weight: 200;
+      margin: 0 auto;
+      width: 750px;
+    }
+    textarea {
+      font-family: monospace;
+      font-size: inherit;
+      height: 150px;
+      width: 100%;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+    label {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<script src="//fb.me/react-with-addons-0.13.3.js"></script>
+<script src="//fb.me/JSXTransformer-0.13.3.js"></script>
+<script src="dist/react-image-diff.js"></script>
+<script type="text/jsx">
+  var imageSets = {
+    aralSea: {
+      before: 'http://news.bbcimg.co.uk/news/special/2015/newsspec_10315/media/wide-static_1970-sml-hr.jpg',
+      //after: 'http://news.bbcimg.co.uk/news/special/2015/newsspec_10315/media/wide-static_1990-sml-hr.jpg',
+      after: 'http://news.bbcimg.co.uk/news/special/2015/newsspec_10315/media/wide-static_2014-sml-hr.jpg',
+      height: 281,
+      width: 500
+    },
+    background: {
+      before: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8bf009f5e2aaf3c363d64d4e013527589c810b7e/2_transparentPixels.png',
+      after: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8e95f70c9c47168305970e91021072673d7cdad8/2_transparentPixels.png'
+    },
+    monocle: {
+      before: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8bf009f5e2aaf3c363d64d4e013527589c810b7e/1_normal.jpg',
+      after: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8e95f70c9c47168305970e91021072673d7cdad8/1_normal.jpg'
+    },
+    yellowstone: {
+      before: 'http://static4.businessinsider.com/image/4d9222b0cadcbb3110540000-1200/before-the-1988-yellowstone-fire.jpg',
+      after: 'http://static2.businessinsider.com/image/4d9222cf49e2aeaa6e500000-1200/two-years-later.jpg',
+      height: 500,
+      width: 500
+    }
+  };
+
+  var App = React.createClass({
+    getInitialState: function() {
+      return {
+        images: 'monocle',
+        type: 'swipe',
+        value: .5
+      };
+    },
+
+    handleImageSelect: function(e) {
+      this.setState({images: e.target.value});
+    },
+
+    handleInputChange: function(e) {
+      this.setState({
+        value: parseFloat(e.target.value)
+      });
+    },
+
+    handleRadioChange: function(e) {
+      this.setState({type: e.target.value});
+    },
+
+    render: function () {
+      var images = imageSets[this.state.images];
+
+      return (
+        <div>
+          <h1>react-image-diff</h1>
+          <select onChange={this.handleImageSelect}>
+            <option value='monocle'>Monocle</option>
+            <option value='background'>Background</option>
+            <option value='aralSea'>Aral Sea 1970-2014</option>
+            <option value='yellowstone'>Yellowstone Fire 1988</option>
+          </select>
+          <div>
+            <ImageDiff
+              {...images}
+              type={this.state.type}
+              value={this.state.value}
+            />
+          </div>
+          <input
+            type='range'
+            defaultValue={this.state.value}
+            min={0}
+            max={1}
+            step={.01}
+            onChange={this.handleInputChange}
+          />
+          <br/>
+          <label>
+            <input
+              name='type'
+              type='radio'
+              value='fade'
+              onChange={this.handleRadioChange}
+            />
+            fade
+          </label>
+          <label>
+            <input
+              name='type'
+              type='radio'
+              value='swipe'
+              onChange={this.handleRadioChange}
+              defaultChecked
+            />
+            swipe
+          </label>
+        </div>
+      );
+    }
+  });
+
+  React.render(<App/>, document.body);
+</script>
+</body>
+</html>
+
