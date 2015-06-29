@@ -1,6 +1,6 @@
 {
   "name": "react-image-diff",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Highlight differences between images",
   "main": "dist/react-image-diff.js",
   "scripts": {
@@ -32,6 +32,7 @@
     "webpack": "^1.10.0"
   },
   "dependencies": {
+    "context-blender": "github:cezary/context-blender",
     "object-assign": "^3.0.0"
   }
 }

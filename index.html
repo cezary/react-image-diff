@@ -31,23 +31,22 @@
 <script type="text/jsx">
   var imageSets = {
     aralSea: {
-      before: 'http://news.bbcimg.co.uk/news/special/2015/newsspec_10315/media/wide-static_1970-sml-hr.jpg',
-      //after: 'http://news.bbcimg.co.uk/news/special/2015/newsspec_10315/media/wide-static_1990-sml-hr.jpg',
-      after: 'http://news.bbcimg.co.uk/news/special/2015/newsspec_10315/media/wide-static_2014-sml-hr.jpg',
+      before: './public/img/aralSea-1970.jpg',
+      after: './public/img/aralSea-2014.jpg',
       height: 281,
       width: 500
     },
     background: {
-      before: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8bf009f5e2aaf3c363d64d4e013527589c810b7e/2_transparentPixels.png',
-      after: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8e95f70c9c47168305970e91021072673d7cdad8/2_transparentPixels.png'
+      before: './public/img/background-0.png',
+      after: './public/img/background-1.png'
     },
     monocle: {
-      before: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8bf009f5e2aaf3c363d64d4e013527589c810b7e/1_normal.jpg',
-      after: 'https://raw.githubusercontent.com/cameronmcefee/Image-Diff-View-Modes/8e95f70c9c47168305970e91021072673d7cdad8/1_normal.jpg'
+      before: './public/img/monocle-0.jpg',
+      after: './public/img/monocle-1.jpg'
     },
     yellowstone: {
-      before: 'http://static4.businessinsider.com/image/4d9222b0cadcbb3110540000-1200/before-the-1988-yellowstone-fire.jpg',
-      after: 'http://static2.businessinsider.com/image/4d9222cf49e2aeaa6e500000-1200/two-years-later.jpg',
+      before: './public/img/yellowstone-1988.jpg',
+      after: './public/img/yellowstone-1990.jpg',
       height: 500,
       width: 500
     }
@@ -57,7 +56,7 @@
     getInitialState: function() {
       return {
         images: 'monocle',
-        type: 'swipe',
+        type: 'fade',
         value: .5
       };
     },
@@ -102,14 +101,25 @@
             max={1}
             step={.01}
             onChange={this.handleInputChange}
+            disabled={this.state.type === 'difference' ? true : false}
           />
           <br/>
           <label>
             <input
               name='type'
               type='radio'
+              value='difference'
+              onChange={this.handleRadioChange}
+            />
+            difference
+          </label>
+          <label>
+            <input
+              name='type'
+              type='radio'
               value='fade'
               onChange={this.handleRadioChange}
+              defaultChecked
             />
             fade
           </label>
@@ -119,7 +129,6 @@
               type='radio'
               value='swipe'
               onChange={this.handleRadioChange}
-              defaultChecked
             />
             swipe
           </label>
