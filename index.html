@@ -44,6 +44,10 @@
       before: './public/img/monocle-0.jpg',
       after: './public/img/monocle-1.jpg'
     },
+    'spotTheDifference': {
+      before: './public/img/spot-the-difference-a.jpg',
+      after: './public/img/spot-the-difference-b.jpg'
+    },
     yellowstone: {
       before: './public/img/yellowstone-1988.jpg',
       after: './public/img/yellowstone-1990.jpg',
@@ -85,6 +89,7 @@
             <option value='monocle'>Monocle</option>
             <option value='background'>Background</option>
             <option value='aralSea'>Aral Sea 1970-2014</option>
+            <option value='spotTheDifference'>Spot the Difference</option>
             <option value='yellowstone'>Yellowstone Fire 1988</option>
           </select>
           <div>
@@ -105,31 +110,15 @@
           />
           <br/>
           <label>
-            <input
-              name='type'
-              type='radio'
-              value='difference'
-              onChange={this.handleRadioChange}
-            />
+            <input name='type' type='radio' value='difference' onChange={this.handleRadioChange} />
             difference
           </label>
           <label>
-            <input
-              name='type'
-              type='radio'
-              value='fade'
-              onChange={this.handleRadioChange}
-              defaultChecked
-            />
+            <input name='type' type='radio' value='fade' onChange={this.handleRadioChange} defaultChecked />
             fade
           </label>
           <label>
-            <input
-              name='type'
-              type='radio'
-              value='swipe'
-              onChange={this.handleRadioChange}
-            />
+            <input name='type' type='radio' value='swipe' onChange={this.handleRadioChange} />
             swipe
           </label>
         </div>
