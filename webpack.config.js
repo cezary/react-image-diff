@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './lib/react-image-diff.js',
+  entry: './src/react-image-diff.js',
   output: {
     filename: './dist/react-image-diff.js',
     sourceMapFilename: './dist/react-image-diff.map',
