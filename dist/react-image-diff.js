@@ -87,6 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      after: _react2['default'].PropTypes.string.isRequired,
 	      before: _react2['default'].PropTypes.string.isRequired,
 	      height: _react2['default'].PropTypes.number,
+	      type: _react2['default'].PropTypes.string.isRequired,
 	      value: _react2['default'].PropTypes.number,
 	      width: _react2['default'].PropTypes.number
 	    },
