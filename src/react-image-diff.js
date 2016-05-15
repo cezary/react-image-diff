@@ -111,7 +111,7 @@ export default class ImageDiff extends Component {
 
     let afterStyle = {
       border: '1px solid #63c363',
-      opacity: this.props.value,
+      opacity: 1 - this.props.value,
       ...style
     };
 
