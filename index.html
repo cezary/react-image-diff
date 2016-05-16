@@ -25,114 +25,116 @@
   </style>
 </head>
 <body>
-<script src="//fb.me/react-with-addons-0.13.3.js"></script>
-<script src="//fb.me/JSXTransformer-0.13.3.js"></script>
-<script src="dist/react-image-diff.js"></script>
-<script type="text/jsx">
-  var imageSets = {
-    aralSea: {
-      before: './public/img/aralSea-1970.jpg',
-      after: './public/img/aralSea-2014.jpg',
-      height: 281,
-      width: 500
-    },
-    background: {
-      before: './public/img/background-0.png',
-      after: './public/img/background-1.png'
-    },
-    monocle: {
-      before: './public/img/monocle-0.jpg',
-      after: './public/img/monocle-1.jpg'
-    },
-    'spotTheDifference': {
-      before: './public/img/spot-the-difference-a.jpg',
-      after: './public/img/spot-the-difference-b.jpg'
-    },
-    'spotTheDifference2': {
-      before: './public/img/spot-the-difference-2a.jpg',
-      after: './public/img/spot-the-difference-2b.jpg'
-    },
-    yellowstone: {
-      before: './public/img/yellowstone-1988.jpg',
-      after: './public/img/yellowstone-1990.jpg',
-      height: 500,
-      width: 500
-    }
-  };
+  <div id="root"></div>
+  <script src="//fb.me/react-with-addons-0.14.7.js"></script>
+  <script src="//fb.me/react-dom-0.14.7.js"></script>
+  <script src="//npmcdn.com/babel-transform-in-browser@6.4.6/dist/btib.min.js"></script>
+  <script src="dist/react-image-diff.js"></script>
+  <script type="text/es2015">
+    var imageSets = {
+      aralSea: {
+        before: './public/img/aralSea-1970.jpg',
+        after: './public/img/aralSea-2014.jpg',
+        height: 281,
+        width: 500
+      },
+      background: {
+        before: './public/img/background-0.png',
+        after: './public/img/background-1.png'
+      },
+      monocle: {
+        before: './public/img/monocle-0.jpg',
+        after: './public/img/monocle-1.jpg'
+      },
+      'spotTheDifference': {
+        before: './public/img/spot-the-difference-a.jpg',
+        after: './public/img/spot-the-difference-b.jpg'
+      },
+      'spotTheDifference2': {
+        before: './public/img/spot-the-difference-2a.jpg',
+        after: './public/img/spot-the-difference-2b.jpg'
+      },
+      yellowstone: {
+        before: './public/img/yellowstone-1988.jpg',
+        after: './public/img/yellowstone-1990.jpg',
+        height: 500,
+        width: 500
+      }
+    };
 
-  var App = React.createClass({
-    getInitialState: function() {
-      return {
-        images: 'monocle',
-        type: 'fade',
-        value: .5
-      };
-    },
+    var App = React.createClass({
+      getInitialState: function() {
+        return {
+          images: 'monocle',
+          type: 'fade',
+          value: .5
+        };
+      },
 
-    handleImageSelect: function(e) {
-      this.setState({images: e.target.value});
-    },
+      handleImageSelect: function(e) {
+        this.setState({images: e.target.value});
+      },
 
-    handleInputChange: function(e) {
-      this.setState({
-        value: parseFloat(e.target.value)
-      });
-    },
+      handleInputChange: function(e) {
+        this.setState({
+          value: parseFloat(e.target.value)
+        });
+      },
 
-    handleRadioChange: function(e) {
-      this.setState({type: e.target.value});
-    },
+      handleRadioChange: function(e) {
+        this.setState({type: e.target.value});
+      },
 
-    render: function () {
-      var images = imageSets[this.state.images];
+      render: function () {
+        var images = imageSets[this.state.images];
 
-      return (
-        <div>
-          <h1>react-image-diff</h1>
-          <select onChange={this.handleImageSelect}>
-            <option value='monocle'>Monocle</option>
-            <option value='background'>Background</option>
-            <option value='aralSea'>Aral Sea 1970-2014</option>
-            <option value='spotTheDifference'>Spot the Difference 1</option>
-            <option value='spotTheDifference2'>Spot the Difference 2</option>
-            <option value='yellowstone'>Yellowstone Fire 1988</option>
-          </select>
+        return (
           <div>
-            <ImageDiff
-              {...images}
-              type={this.state.type}
-              value={this.state.value}
+            <h1>react-image-diff</h1>
+            <select onChange={this.handleImageSelect}>
+              <option value='monocle'>Monocle</option>
+              <option value='background'>Background</option>
+              <option value='aralSea'>Aral Sea 1970-2014</option>
+              <option value='spotTheDifference'>Spot the Difference 1</option>
+              <option value='spotTheDifference2'>Spot the Difference 2</option>
+              <option value='yellowstone'>Yellowstone Fire 1988</option>
+            </select>
+            <div>
+              <ImageDiff
+                {...images}
+                type={this.state.type}
+                value={this.state.value}
+              />
+            </div>
+            <input
+              type='range'
+              defaultValue={this.state.value}
+              min={0}
+              max={1}
+              step={.01}
+              onChange={this.handleInputChange}
+              disabled={this.state.type === 'difference' ? true : false}
             />
+            <br/>
+            <label>
+              <input name='type' type='radio' value='swipe' onChange={this.handleRadioChange} />
+              swipe
+            </label>
+            <label>
+              <input name='type' type='radio' value='fade' onChange={this.handleRadioChange} defaultChecked />
+              fade
+            </label>
+            <label>
+              <input name='type' type='radio' value='difference' onChange={this.handleRadioChange} />
+              difference
+            </label>
           </div>
-          <input
-            type='range'
-            defaultValue={this.state.value}
-            min={0}
-            max={1}
-            step={.01}
-            onChange={this.handleInputChange}
-            disabled={this.state.type === 'difference' ? true : false}
-          />
-          <br/>
-          <label>
-            <input name='type' type='radio' value='swipe' onChange={this.handleRadioChange} />
-            swipe
-          </label>
-          <label>
-            <input name='type' type='radio' value='fade' onChange={this.handleRadioChange} defaultChecked />
-            fade
-          </label>
-          <label>
-            <input name='type' type='radio' value='difference' onChange={this.handleRadioChange} />
-            difference
-          </label>
-        </div>
-      );
-    }
-  });
+        );
+      }
+    });
 
-  React.render(<App/>, document.body);
-</script>
+    ReactDOM.render(<App/>, document.getElementById('root'));
+  </script>
 </body>
 </html>
 
