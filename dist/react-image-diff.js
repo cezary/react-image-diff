@@ -56,55 +56,78 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	var bgImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUAQMAAAC3R49OAAAABlBMVEX5+fn///8pDrwNAAAAFElEQVQI12NgsP/AQAz+f4CBGAwAJIIdTTn0+w0AAAAASUVORK5CYII=';
 
-	var ImageDiff = (function (_Component) {
+	var ImageDiff = function (_Component) {
 	  _inherits(ImageDiff, _Component);
-
-	  _createClass(ImageDiff, null, [{
-	    key: 'propTypes',
-	    value: {
-	      after: _react2['default'].PropTypes.string.isRequired,
-	      before: _react2['default'].PropTypes.string.isRequired,
-	      height: _react2['default'].PropTypes.number,
-	      type: _react2['default'].PropTypes.string.isRequired,
-	      value: _react2['default'].PropTypes.number,
-	      width: _react2['default'].PropTypes.number
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      value: 1
-	    },
-	    enumerable: true
-	  }]);
 
 	  function ImageDiff() {
 	    _classCallCheck(this, ImageDiff);
 
-	    _get(Object.getPrototypeOf(ImageDiff.prototype), 'constructor', this).call(this);
-	    this.handleImgLoad = this.handleImgLoad.bind(this);
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageDiff).call(this));
+
+	    _this.renderFade = function () {
+	      var style = {
+	        backgroundImage: 'url(' + bgImage + ')',
+	        height: _this.state.height,
+	        margin: 0,
+	        position: 'absolute',
+	        width: _this.state.width
+	      };
+
+	      var beforeStyle = _extends({
+	        border: '1px solid #f77'
+	      }, style);
+
+	      var afterStyle = _extends({
+	        border: '1px solid #63c363',
+	        opacity: 1 - _this.props.value
+	      }, style);
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'ImageDiff__inner--fade', style: style },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ImageDiff__before', style: beforeStyle },
+	          _react2.default.createElement('img', {
+	            src: _this.props.before,
+	            height: _this.props.height,
+	            width: _this.props.width,
+	            onLoad: _this.handleImgLoad
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ImageDiff__after', style: afterStyle },
+	          _react2.default.createElement('img', {
+	            src: _this.props.after,
+	            height: _this.props.height,
+	            width: _this.props.width,
+	            onLoad: _this.handleImgLoad
+	          })
+	        )
+	      );
+	    };
+
+	    _this.handleImgLoad = _this.handleImgLoad.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(ImageDiff, [{
@@ -125,26 +148,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'handleImgLoad',
-	    value: function handleImgLoad(ref) {
-	      var _this = this;
+	    value: function handleImgLoad(e) {
+	      if (!this.props.height && !this.props.width) {
+	        var _e$target = e.target;
+	        var height = _e$target.height;
+	        var width = _e$target.width;
 
-	      return function () {
-	        if (!_this.props.height && !_this.props.width) {
-	          var _React$findDOMNode = _react2['default'].findDOMNode(_this.refs[ref]);
-
-	          var height = _React$findDOMNode.height;
-	          var width = _React$findDOMNode.width;
-
-	          _this.setState({
-	            height: height, width: width
-	          });
-	        }
-	      };
+	        this.setState({
+	          height: height, width: width
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2['default'].createElement(
+	      return _react2.default.createElement(
 	        'div',
 	        { className: 'ImageDiff', style: { display: 'inline-block', height: this.state.height, width: this.state.width } },
 	        this.props.type === 'difference' ? this.renderDifference() : null,
@@ -165,77 +183,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	      };
 	      var afterStyle = _extends({}, beforeStyle);
 
-	      return _react2['default'].createElement(
+	      return _react2.default.createElement(
 	        'div',
 	        { className: 'ImageDiff_inner--difference', style: style },
-	        _react2['default'].createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { className: 'ImageDiff__before', style: beforeStyle },
-	          _react2['default'].createElement('img', {
-	            ref: 'before',
+	          _react2.default.createElement('img', {
 	            src: this.props.before,
 	            height: this.props.height,
 	            width: this.props.width,
-	            onLoad: this.handleImgLoad('before')
+	            onLoad: this.handleImgLoad
 	          })
 	        ),
-	        _react2['default'].createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { className: 'ImageDiff__after', style: afterStyle },
-	          _react2['default'].createElement('img', {
-	            ref: 'after',
+	          _react2.default.createElement('img', {
 	            src: this.props.after,
 	            height: this.props.height,
 	            width: this.props.width,
 	            style: { mixBlendMode: 'difference' },
-	            onLoad: this.handleImgLoad('after')
-	          })
-	        )
-	      );
-	    }
-	  }, {
-	    key: 'renderFade',
-	    value: function renderFade() {
-	      var style = {
-	        backgroundImage: 'url(' + bgImage + ')',
-	        height: this.state.height,
-	        margin: 0,
-	        position: 'absolute',
-	        width: this.state.width
-	      };
-
-	      var beforeStyle = _extends({
-	        border: '1px solid #f77'
-	      }, style);
-
-	      var afterStyle = _extends({
-	        border: '1px solid #63c363',
-	        opacity: this.props.value
-	      }, style);
-
-	      return _react2['default'].createElement(
-	        'div',
-	        { className: 'ImageDiff__inner--fade', style: style },
-	        _react2['default'].createElement(
-	          'div',
-	          { className: 'ImageDiff__before', style: beforeStyle },
-	          _react2['default'].createElement('img', {
-	            ref: 'before',
-	            src: this.props.before,
-	            height: this.props.height,
-	            width: this.props.width,
-	            onLoad: this.handleImgLoad('before')
-	          })
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          { className: 'ImageDiff__after', style: afterStyle },
-	          _react2['default'].createElement('img', {
-	            ref: 'after',
-	            src: this.props.after,
-	            height: this.props.height,
-	            width: this.props.width,
-	            onLoad: this.handleImgLoad('after')
+	            onLoad: this.handleImgLoad
 	          })
 	        )
 	      );
@@ -270,32 +239,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	        width: this.state.width * (1 - this.props.value)
 	      };
 
-	      return _react2['default'].createElement(
+	      return _react2.default.createElement(
 	        'div',
 	        { className: 'ImageDiff__inner--swipe', style: style },
-	        _react2['default'].createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { className: 'ImageDiff__before', style: beforeStyle },
-	          _react2['default'].createElement('img', {
-	            ref: 'before',
+	          _react2.default.createElement('img', {
 	            src: this.props.before,
 	            height: this.props.height,
 	            width: this.props.width,
-	            onLoad: this.handleImgLoad('before')
+	            onLoad: this.handleImgLoad
 	          })
 	        ),
-	        _react2['default'].createElement(
+	        _react2.default.createElement(
 	          'div',
 	          { className: 'ImageDiff--swiper', style: swiperStyle },
-	          _react2['default'].createElement(
+	          _react2.default.createElement(
 	            'div',
 	            { className: 'ImageDiff__after', style: afterStyle },
-	            _react2['default'].createElement('img', {
-	              ref: 'after',
+	            _react2.default.createElement('img', {
 	              src: this.props.after,
 	              height: this.props.height,
 	              width: this.props.width,
-	              onLoad: this.handleImgLoad('after')
+	              onLoad: this.handleImgLoad
 	            })
 	          )
 	        )
@@ -304,10 +271,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return ImageDiff;
-	})(_react.Component);
+	}(_react.Component);
 
-	exports['default'] = ImageDiff;
-	module.exports = exports['default'];
+	ImageDiff.propTypes = {
+	  after: _react.PropTypes.string.isRequired,
+	  before: _react.PropTypes.string.isRequired,
+	  height: _react.PropTypes.number,
+	  type: _react.PropTypes.string.isRequired,
+	  value: _react.PropTypes.number,
+	  width: _react.PropTypes.number
+	};
+
+	ImageDiff.defaultProps = {
+	  value: 1
+	};
+
+	module.exports = ImageDiff;
 
 /***/ },
 /* 1 */
