@@ -6,42 +6,105 @@ class ImageDiff extends Component {
   constructor() {
     super();
     this.handleImgLoad = this.handleImgLoad.bind(this);
+    this.getScaledDimensions = this.getScaledDimensions.bind(this);
+
+    this.state = {
+      naturalWidthBefore: null,
+      naturalHeightBefore: null,
+      naturalWidthAfter: null,
+      naturalHeightAfter: null,
+    };
   }
 
-  componentWillMount() {
+  handleImgLoad(e, type) {
+    const { naturalHeight, naturalWidth } = e.target;
     this.setState({
-      height: this.props.height,
-      width: this.props.width
+      [`naturalHeight${type}`]: naturalHeight,
+      [`naturalWidth${type}`]: naturalWidth,
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      height: nextProps.height || this.state.height,
-      width: nextProps.width || this.state.width
-    });
-  }
+  getScaledDimensions() {
+    const getDimensions = (maxHeight, maxWidth, naturalHeight, naturalWidth) => {
+      const heightRatio = typeof maxHeight !== 'undefined' ? (naturalHeight / maxHeight) : 1;
+      const widthRatio = typeof maxWidth !== 'undefined' ? (naturalWidth / maxWidth) : 1;
 
-  handleImgLoad(e) {
-    if (!this.props.height && !this.props.width) {
-      let {height, width} = e.target;
-      this.setState({
-        height, width
-      });
+      // Use max to prevent scaling up the image
+      let divisor = Math.max(1, widthRatio);
+      if (widthRatio < heightRatio) {
+        // fit to height
+        divisor = Math.max(1, heightRatio);
+      }
+
+      return {
+        width: naturalWidth / divisor,
+        height: naturalHeight / divisor,
+      };
+    };
+
+    const {
+      naturalWidthBefore,
+      naturalHeightBefore,
+      naturalWidthAfter,
+      naturalHeightAfter,
+    } = this.state;
+    const {
+      width: maxHeight,
+      height: maxWidth,
+    } = this.props;
+
+    let height = 0;
+    let width = 0;
+    let heightBefore = 0;
+    let widthBefore = 0;
+    let heightAfter = 0;
+    let widthAfter = 0;
+
+    if (naturalHeightBefore && naturalHeightAfter) {
+      ({
+        height: heightBefore,
+        width: widthBefore,
+      } = getDimensions(maxHeight, maxWidth, naturalHeightBefore, naturalWidthBefore));
+      ({
+        height: heightAfter,
+        width: widthAfter,
+      } = getDimensions(maxHeight, maxWidth, naturalHeightAfter, naturalWidthAfter));
+      height = Math.max(heightBefore, heightAfter);
+      width = Math.max(widthBefore, widthAfter);
     }
+
+    return {
+      height,
+      width,
+      heightBefore,
+      widthBefore,
+      heightAfter,
+      widthAfter,
+    };
   }
 
   render() {
+    const {
+      height,
+      width,
+    } = this.getScaledDimensions();
     return (
-      <div className='ImageDiff' style={{display: 'inline-block', height: this.state.height, width: this.state.width}}>
-        {this.props.type === 'difference' ? this.renderDifference() : null}
-        {this.props.type === 'fade' ? this.renderFade() : null}
-        {this.props.type === 'swipe' ? this.renderSwipe() : null}
+      <div
+        className='ImageDiff'
+        style={{
+          display: 'inline-block',
+          height,
+          width,
+        }}
+      >
+        {this.props.type === 'difference' ? this.renderDifference(height, width) : null}
+        {this.props.type === 'fade' ? this.renderFade(height, width) : null}
+        {this.props.type === 'swipe' ? this.renderSwipe(height, width) : null}
       </div>
     );
   }
 
-  renderDifference() {
+  renderDifference(height, width) {
     const style = {
       position: 'relative'
     };
@@ -59,31 +122,35 @@ class ImageDiff extends Component {
         <div className='ImageDiff__before' style={beforeStyle}>
           <img
             src={this.props.before}
-            height={this.props.height}
-            width={this.props.width}
-            onLoad={this.handleImgLoad}
+            style={{
+              maxHeight: height,
+              maxWidth: width,
+            }}
+            onLoad={e => this.handleImgLoad(e, 'Before')}
           />
         </div>
         <div className='ImageDiff__after' style={afterStyle}>
           <img
             src={this.props.after}
-            height={this.props.height}
-            width={this.props.width}
-            style={{ mixBlendMode: 'difference' }}
-            onLoad={this.handleImgLoad}
+            style={{
+              maxHeight: height,
+              maxWidth: width,
+              mixBlendMode: 'difference',
+            }}
+            onLoad={e => this.handleImgLoad(e, 'After')}
           />
         </div>
       </div>
     );
   }
 
-  renderFade = () => {
+  renderFade = (height, width) => {
     let style = {
       backgroundImage: `url(${bgImage})`,
-      height: this.state.height,
+      height: height,
       margin: 0,
       position: 'absolute',
-      width: this.state.width
+      width: width
     };
 
     let beforeStyle = {
@@ -102,30 +169,34 @@ class ImageDiff extends Component {
         <div className='ImageDiff__before' style={beforeStyle}>
           <img
             src={this.props.before}
-            height={this.props.height}
-            width={this.props.width}
-            onLoad={this.handleImgLoad}
+            style={{
+              maxHeight: height,
+              maxWidth: width,
+            }}
+            onLoad={e => this.handleImgLoad(e, 'Before')}
           />
         </div>
         <div className='ImageDiff__after' style={afterStyle}>
           <img
             src={this.props.after}
-            height={this.props.height}
-            width={this.props.width}
-            onLoad={this.handleImgLoad}
+            style={{
+              maxHeight: height,
+              maxWidth: width,
+            }}
+            onLoad={e => this.handleImgLoad(e, 'After')}
           />
         </div>
       </div>
     );
   }
 
-  renderSwipe() {
+  renderSwipe(height, width) {
     let style = {
       backgroundImage: `url(${bgImage})`,
-      height: this.state.height,
+      height: height,
       margin: 0,
       position: 'absolute',
-      width: this.state.width
+      width: width
     };
 
     let beforeStyle = {
@@ -141,12 +212,12 @@ class ImageDiff extends Component {
 
     let swiperStyle = {
       borderLeft: '1px solid #999',
-      height: this.state.height + 2,
+      height: height + 2,
       margin: 0,
       overflow: 'hidden',
       position: 'absolute',
       right: -2,
-      width: this.state.width * (1 - this.props.value)
+      width: width * (1 - this.props.value)
     };
 
     return (
@@ -154,18 +225,22 @@ class ImageDiff extends Component {
         <div className='ImageDiff__before' style={beforeStyle}>
           <img
             src={this.props.before}
-            height={this.props.height}
-            width={this.props.width}
-            onLoad={this.handleImgLoad}
+            style={{
+              maxHeight: height,
+              maxWidth: width,
+            }}
+            onLoad={e => this.handleImgLoad(e, 'Before')}
           />
         </div>
         <div className='ImageDiff--swiper' style={swiperStyle}>
           <div className='ImageDiff__after' style={afterStyle}>
             <img
               src={this.props.after}
-              height={this.props.height}
-              width={this.props.width}
-              onLoad={this.handleImgLoad}
+              style={{
+                maxHeight: height,
+                maxWidth: width,
+              }}
+              onLoad={e => this.handleImgLoad(e, 'After')}
             />
           </div>
         </div>
