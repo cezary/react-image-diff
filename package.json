@@ -1,6 +1,6 @@
 {
   "name": "react-image-diff",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Highlight differences between images",
   "main": "dist/react-image-diff.js",
   "scripts": {
