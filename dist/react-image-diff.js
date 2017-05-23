@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -80,7 +80,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function ImageDiff() {
 	    _classCallCheck(this, ImageDiff);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageDiff).call(this));
+	    var _this = _possibleConstructorReturn(this, (ImageDiff.__proto__ || Object.getPrototypeOf(ImageDiff)).call(this));
 
 	    _this.renderFade = function () {
 	      var style = {
@@ -150,9 +150,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'handleImgLoad',
 	    value: function handleImgLoad(e) {
 	      if (!this.props.height && !this.props.width) {
-	        var _e$target = e.target;
-	        var height = _e$target.height;
-	        var width = _e$target.width;
+	        var _e$target = e.target,
+	            height = _e$target.height,
+	            width = _e$target.width;
 
 	        this.setState({
 	          height: height, width: width
@@ -167,7 +167,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        { className: 'ImageDiff', style: { display: 'inline-block', height: this.state.height, width: this.state.width } },
 	        this.props.type === 'difference' ? this.renderDifference() : null,
 	        this.props.type === 'fade' ? this.renderFade() : null,
-	        this.props.type === 'swipe' ? this.renderSwipe() : null
+	        this.props.type === 'swipe' ? this.renderSwipe() : null,
+	        this.props.type === 'swipev' ? this.renderSwipeVertical() : null
 	      );
 	    }
 	  }, {
@@ -268,6 +269,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	        )
 	      );
 	    }
+	  }, {
+	    key: 'renderSwipeVertical',
+	    value: function renderSwipeVertical() {
+	      var style = {
+	        backgroundImage: 'url(' + bgImage + ')',
+	        height: this.state.height,
+	        margin: 0,
+	        position: 'absolute',
+	        width: this.state.width
+	      };
+
+	      var beforeStyle = _extends({
+	        border: '1px solid #f77'
+	      }, style);
+
+	      var afterStyle = _extends({
+	        border: '1px solid #63c363',
+	        bottom: 0
+	      }, style);
+
+	      var swiperStyle = {
+	        borderTop: '1px solid #999',
+	        width: this.state.width + 2,
+	        margin: 0,
+	        overflow: 'hidden',
+	        position: 'absolute',
+	        bottom: -2,
+	        height: this.state.height * (1 - this.props.value)
+	      };
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'ImageDiff__inner--swipe', style: style },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ImageDiff__before', style: beforeStyle },
+	          _react2.default.createElement('img', {
+	            src: this.props.before,
+	            height: this.props.height,
+	            width: this.props.width,
+	            onLoad: this.handleImgLoad
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ImageDiff--swiper', style: swiperStyle },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'ImageDiff__after', style: afterStyle },
+	            _react2.default.createElement('img', {
+	              src: this.props.after,
+	              height: this.props.height,
+	              width: this.props.width,
+	              onLoad: this.handleImgLoad
+	            })
+	          )
+	        )
+	      );
+	    }
 	  }]);
 
 	  return ImageDiff;
@@ -288,13 +348,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = ImageDiff;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
